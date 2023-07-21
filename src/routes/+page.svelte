@@ -8,6 +8,23 @@
   {#await promise}
     <p>Chargement...</p>
   {:then { data }}
+    {#if data.isPlaying === false}
+      <p>Pas de musique en cours 🥲</p>
+      <p>
+        Dernière écoute le {new Date(data.playedAt).toLocaleTimeString(
+          "fr-FR",
+          {
+            day: "numeric",
+            month: "long",
+            year: "numeric",
+            hour: "numeric",
+            minute: "numeric",
+          }
+        )}
+        :
+      </p>
+    {/if}
+
     <div class="card">
       <img src={data.albumImageUrl} alt={data.album} />
       <a href={data.songUrl}>
@@ -15,6 +32,7 @@
       </a>
       <div>{data.artist}</div>
       <div>{data.album}</div>
+      <audio controls src={data.previewUrl} />
     </div>
   {/await}
 </main>
