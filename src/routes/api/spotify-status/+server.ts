@@ -11,16 +11,14 @@ import {
 } from "$env/static/private";
 
 export type SongResponse = {
-  data: {
-    isPlaying: boolean;
-    title: string;
-    artist: string;
-    album: string;
-    albumImageUrl: string;
-    songUrl: string;
-    previewUrl: string;
-    playedAt: string;
-  }
+  isPlaying: boolean;
+  title: string;
+  artist: string;
+  album: string;
+  albumImageUrl: string;
+  songUrl: string;
+  previewUrl: string;
+  playedAt: string;
 }
 
 const basic = Buffer.from(
@@ -69,7 +67,7 @@ const buildResponse = (isPlaying: boolean, song: Song, playedAt?: string): SongR
   title: song.name,
   artist: song.artists.map((_artist) => _artist.name).join(", "),
   album: song.album.name,
-  albumImageUrl: song.album.images[1].url,
+  albumImageUrl: song.album.images[0].url,
   songUrl: song.external_urls.spotify,
   previewUrl: song.preview_url,
   playedAt: playedAt ? playedAt : Date.now().toString(),
