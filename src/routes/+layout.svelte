@@ -5,11 +5,11 @@
   const queryClient = new QueryClient();
 </script>
 
-<!-- <QueryClientProvider client={queryClient}>
+<QueryClientProvider client={queryClient}>
   <main>
     <slot />
   </main>
-</QueryClientProvider> -->
+</QueryClientProvider>
 
 <p />
 
