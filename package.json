@@ -22,7 +22,7 @@
 	},
 	"type": "module",
 	"dependencies": {
-		"@tanstack/svelte-query": "^4.32.0",
+		"@tanstack/svelte-query": "^4.32.1",
 		"sass": "^1.63.6"
 	}
 }

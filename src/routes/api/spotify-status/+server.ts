@@ -19,6 +19,7 @@ export type SongResponse = {
   songUrl: string;
   previewUrl: string;
   playedAt: string;
+  release: string;
 }
 
 const basic = Buffer.from(
@@ -46,6 +47,22 @@ const getAccessToken = async () => {
   return response;
 };
 
+const timeAgo = (date: string) => {
+  const now = new Date();
+  const pastDate = new Date(date);
+  const timeDifferenceInMilliseconds = now.getTime() - pastDate.getTime();
+
+  if (timeDifferenceInMilliseconds < 3600000) {
+    return "Less than an hour ago";
+  } else if (timeDifferenceInMilliseconds < 86400000) {
+    const hours = Math.floor(timeDifferenceInMilliseconds / 3600000);
+    return `${hours} hour${hours === 1 ? "" : "s"} ago`;
+  } else {
+    const days = Math.floor(timeDifferenceInMilliseconds / 86400000);
+    return `${days} day${days === 1 ? "" : "s"} ago`;
+  }
+};
+
 const getNowPlaying = async (accessToken: string) => {
   return await fetch(NOW_PLAYING_ENDPOINT, {
     headers: {
@@ -62,7 +79,7 @@ const getRecentlyPlayed = async (accessToken: string) => {
   });
 };
 
-const buildResponse = (isPlaying: boolean, song: Song, playedAt?: string): SongResponse["data"] => ({
+const buildResponse = (isPlaying: boolean, song: Song, playedAt?: string): SongResponse => ({
   isPlaying,
   title: song.name,
   artist: song.artists.map((_artist) => _artist.name).join(", "),
@@ -70,7 +87,8 @@ const buildResponse = (isPlaying: boolean, song: Song, playedAt?: string): SongR
   albumImageUrl: song.album.images[0].url,
   songUrl: song.external_urls.spotify,
   previewUrl: song.preview_url,
-  playedAt: playedAt ? playedAt : Date.now().toString(),
+  playedAt: playedAt ? timeAgo(playedAt) : "Now",
+  release: song.album.release_date,
 });
 
 export async function GET() {

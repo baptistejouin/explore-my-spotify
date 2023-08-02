@@ -1,5 +1,5 @@
 <script>
-  import SpotifyCard from "../components/SpotifyCard.svelte";
+  import Player from "../components/Player/Index.svelte";
 </script>
 
-<SpotifyCard />
+<Player />

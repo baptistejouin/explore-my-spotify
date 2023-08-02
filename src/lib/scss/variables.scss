@@ -1,0 +1,18 @@
+$xs: 375px;
+$sm: 576px;
+$md: 768px;
+$lg: 992px;
+$xl: 1200px;
+$xxl: 1400px;
+
+$f-xs-h1: 4rem;
+$f-xs-h2: 2.5rem;
+$f-xs-h3: 1.25rem;
+$f-xs-h4: 1rem;
+$f-xs-p: 1rem;
+
+$f-md-h1: $f-xs-h1 * 1.45;
+$f-md-h2: $f-xs-h2 * 1.45;
+$f-md-h3: $f-xs-h3 * 1.45;
+$f-md-h4: $f-xs-h4 * 1.45;
+$f-md-p: $f-xs-p * 1.45;

@@ -1,5 +1,62 @@
-body {
+@use "$lib/scss/variables.scss" as vars;
+@use "$lib/scss/mixins.scss";
+
+* {
   box-sizing: border-box;
+}
+
+body {
+  font-size: 16px;
+  background-color: #0F0F0F;
+  overflow-x: hidden;
   margin: 0;
   padding: 0;
+}
+h1, h2, h3, h4, h5, h6 {
+  margin: 0;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+}
+
+h1 {
+  font-size: vars.$f-xs-h1;
+  margin-block: 0.5rem;
+
+  @include mixins.after(md) {
+    font-size: vars.$f-md-h1;
+  }
+}
+
+h2 {
+  font-size: vars.$f-xs-h2;
+  margin-block: 0.33rem;
+
+  @include mixins.after(md) {
+  font-size: vars.$f-md-h2;
+  }
+}
+h3 {
+  font-size: vars.$f-xs-h3;
+  
+  @include mixins.after(md) {
+    font-size: vars.$f-md-h3;
+}
+}
+h4 {
+  font-size: vars.$f-xs-h4;
+  margin-block: 0.5rem;
+  
+  @include mixins.after(md) {
+    font-size: vars.$f-md-h4;
+  }
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+
+  &:hover {
+    text-decoration: underline
+  }
 }

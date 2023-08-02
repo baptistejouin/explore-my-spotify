@@ -1,0 +1,57 @@
+@use '$lib/scss/variables.scss' as vars;
+
+@mixin after($size) {
+	@if $size == xs {
+		@media (min-width: vars.$xs) {
+			@content;
+		}
+	} @else if $size == sm {
+		@media (min-width: vars.$sm) {
+			@content;
+		}
+	} @else if $size == md {
+		@media (min-width: vars.$md) {
+			@content;
+		}
+	} @else if $size == lg {
+		@media (min-width: vars.$lg) {
+			@content;
+		}
+	} @else if $size == xl {
+		@media (min-width: vars.$xl) {
+			@content;
+		}
+	} @else {
+		@media (min-width: $size) {
+			@content;
+		}
+	}
+}
+
+@mixin before($size) {
+	@if $size == xs {
+		@media (max-width: vars.$xs) {
+			@content;
+		}
+	} @else if $size == sm {
+		@media (max-width: vars.$sm) {
+			@content;
+		}
+	} @else if $size == md {
+		@media (max-width: vars.$md) {
+			@content;
+		}
+	} @else if $size == lg {
+		@media (max-width: vars.$lg) {
+			@content;
+		}
+	} @else if $size == xl {
+		@media (max-width: vars.$xl) {
+			@content;
+		}
+	} @else {
+		@media (max-width: $size) {
+			@content;
+		}
+	}
+}
