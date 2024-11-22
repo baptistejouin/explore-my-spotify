@@ -1,7 +1,7 @@
 <script lang="ts">
-  import "../app.scss";
   import { browser } from "$app/environment";
-  import { QueryClientProvider, QueryClient } from "@tanstack/svelte-query";
+  import { QueryClient, QueryClientProvider } from "@tanstack/svelte-query";
+  import "../app.scss";
 
   const queryClient = new QueryClient({
     defaultOptions: {

@@ -26,10 +26,7 @@
 
 <div class="player">
   {#if $song.isSuccess}
-    <Content
-      isLoading={$song.isFetching || $song.isLoading}
-      song={$song.data}
-    />
+    <Content song={$song.data} />
   {:else if $song.isError}
     <p>Something went wrong</p>
   {/if}
@@ -42,11 +39,12 @@
   .player {
     display: flex;
     flex-direction: column;
-    margin-block: 3rem;
+    margin-top: 20vh;
     max-width: 100%;
 
     @include mixins.before(lg) {
       margin-inline: auto;
+      margin-top: 2rem;
       max-width: vars.$sm;
     }
   }
