@@ -1,5 +1,7 @@
 <script lang="ts">
   import type { SongResponse } from "../../routes/api/spotify-status/+server";
+  import AlbumShader from "./AlbumShader.svelte";
+
   export let song: SongResponse = {
     isPlaying: false,
     title: "",
@@ -13,12 +15,15 @@
   };
 </script>
 
+{#if song.albumImageUrl}
+  <AlbumShader albumImageUrl={song.albumImageUrl} />
+{/if}
+
 <div class="wrapper" class:skeleton={!song.title}>
   <div class="artwork">
     <div class="container">
       <div class="artwork-content">
         <img src={song.albumImageUrl} alt={song.album} />
-        <img class="blur" src={song.albumImageUrl} alt={song.album} />
       </div>
     </div>
   </div>
@@ -185,19 +190,6 @@
       @include mixins.before(lg) {
         width: 100%;
       }
-    }
-    .blur {
-      z-index: -1;
-      mix-blend-mode: soft-light;
-      animation: liquid_blur 20s ease-in-out infinite;
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100vw;
-      height: min(100vh, 1200px);
-      will-change: transform, filter;
-      filter: blur(100px);
-      opacity: 1;
     }
   }
 
