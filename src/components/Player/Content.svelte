@@ -47,15 +47,23 @@
             {song.playedAt}
           {/if}
           <span
-            >(via <a
+            >(on my <a
               href="https://open.spotify.com/user/_forex_?si=df7b55d00b394d94"
-              >Spotify</a
+              >account</a
             >)</span
           >
         </p>
       {/if}
     </div>
   </div>
+</div>
+
+<div class="info">
+  Made for fun <a
+    href="https://github.com/baptistejouin"
+    target="_blank"
+    rel="noopener noreferrer">here</a
+  >
 </div>
 
 <style lang="scss">
@@ -90,6 +98,9 @@
         height: 25.91667rem;
         border-radius: 1rem;
         animation: skeleton-loading 1s infinite alternate;
+        box-shadow:
+          0 20px 25px -5px rgb(0 0 0 / 0.1),
+          0 8px 10px -6px rgb(0 0 0 / 0.1);
         @include mixins.before(lg) {
           width: 100%;
         }
@@ -151,8 +162,45 @@
   }
 
   .song {
+    h2,
+    h3 {
+      display: -webkit-box;
+      -webkit-line-clamp: 3; // limit to 3 lines
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      word-break: break-word;
+      line-height: 1.2;
+      max-width: 100%;
+    }
+
+    h2 {
+      font-size: vars.$f-md-h2;
+
+      @include mixins.before(lg) {
+        font-size: vars.$f-xs-h2;
+      }
+    }
+
+    h3 {
+      font-size: vars.$f-md-h4;
+
+      @include mixins.before(lg) {
+        font-size: vars.$f-xs-h4;
+      }
+    }
+
     h4 {
-      color: #a5a5a5;
+      font-size: vars.$f-md-h4;
+      line-height: 1.2;
+      max-width: 100%;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+
+      @include mixins.before(lg) {
+        font-size: vars.$f-xs-h4;
+      }
     }
   }
 
@@ -221,31 +269,27 @@
     }
   }
 
-  @keyframes liquid_blur {
-    0% {
-      transform: scale(1.2) translate(-2%, -2%) rotate(0deg);
-      filter: blur(100px) saturate(1.5) brightness(1.2);
-      border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
+  .info {
+    font-size: 0.75rem;
+    color: rgba(255, 255, 255, 0.2);
+    margin-top: 0.5rem;
+    text-align: center;
+    position: fixed;
+    bottom: 1rem;
+    left: 1rem;
+
+    a {
+      color: rgba(255, 255, 255, 0.25);
+      text-decoration: none;
+
+      &:hover {
+        text-decoration: underline;
+      }
     }
-    25% {
-      transform: scale(1.25) translate(2%, 2%) rotate(2deg);
-      filter: blur(120px) saturate(1.8) brightness(1.3);
-      border-radius: 70% 30% 30% 70% / 70% 30% 70% 30%;
-    }
-    50% {
-      transform: scale(1.3) translate(1%, -1%) rotate(-2deg);
-      filter: blur(110px) saturate(1.6) brightness(1.4);
-      border-radius: 30% 70% 30% 70% / 70% 30% 30% 70%;
-    }
-    75% {
-      transform: scale(1.22) translate(-1%, 1%) rotate(1deg);
-      filter: blur(130px) saturate(1.7) brightness(1.2);
-      border-radius: 70% 30% 70% 30% / 30% 70% 30% 70%;
-    }
-    100% {
-      transform: scale(1.2) translate(-2%, -2%) rotate(0deg);
-      filter: blur(100px) saturate(1.5) brightness(1.2);
-      border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
+
+    @include mixins.before(lg) {
+      text-align: center;
+      margin-top: 1rem;
     }
   }
 
