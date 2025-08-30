@@ -29,36 +29,56 @@ uniform sampler2D u_texture;
 uniform float u_time;
 varying vec2 v_texCoord;
 
-// Add subtle random-like noise
+// Hash function for subtle randomness
 float hash(vec2 p) {
   return fract(sin(dot(p, vec2(127.1, 311.7))) * 43758.5453123);
 }
 
-// Smoother wave distortion (slower + more organic)
+// Smooth wave distortion
 vec2 waveDistortion(vec2 uv, float time) {
-  float wave1 = sin(uv.x * 5.0 + time * 0.8) * 0.015;
-  float wave2 = cos(uv.y * 4.0 + time * 0.6) * 0.015;
-  float wave3 = sin((uv.x + uv.y) * 3.0 + time * 1.2) * 0.01;
-
-  // Add tiny noise for randomness
-  float n = (hash(uv + time) - 0.5) * 0.005;
-
+  float wave1 = sin(uv.x * 4.0 + time * 0.6) * 0.015;
+  float wave2 = cos(uv.y * 3.0 + time * 0.4) * 0.015;
+  float wave3 = sin((uv.x + uv.y) * 2.5 + time * 0.9) * 0.01;
+  float n = (hash(uv + time) - 0.5) * 0.004;
   return vec2(wave1 + wave3 + n, wave2 + wave3 + n);
 }
 
+// Radial blur function with slow random variation
+vec4 radialBlur(vec2 uv, float time) {
+  vec2 center = vec2(0.5, 0.5);
+  float dist = distance(uv, center);
+
+  // Base blur plus slow pseudo-random variation
+  float noise = (hash(vec2(time * 0.05, dist)) - 0.5) * 0.2; // [-0.1,0.1]
+  float blurStrength = 0.25 + 0.2 * sin(time * 0.3 + dist * 5.0) + noise; // varies slowly
+
+  vec4 color = vec4(0.0);
+  const int samples = 5;
+  for(int i = 0; i < samples; i++) {
+    float t = float(i) / float(samples - 1);
+    vec2 offset = (uv - center) * t * blurStrength;
+    color += texture2D(u_texture, clamp(uv - offset, 0.001, 0.999));
+  }
+  return color / float(samples);
+}
+
 void main() {
-  // Flip Y so texture isn’t inverted
+  // Flip Y + zoom slightly
   vec2 uv = vec2(v_texCoord.x, 1.0 - v_texCoord.y);
+  uv = uv * 0.95 + 0.025;
 
-	vec2 distortedUV = uv + waveDistortion(uv, u_time);
-	distortedUV = clamp(distortedUV, 0.0, 1.0); 
-	vec4 color = texture2D(u_texture, distortedUV);
+  // Apply wave distortion
+  vec2 distortedUV = uv + waveDistortion(uv, u_time);
+  distortedUV = clamp(distortedUV, 0.001, 0.999);
 
+  // Apply radial blur
+  vec4 color = radialBlur(distortedUV, u_time);
 
-  // Subtle pulse
-  float pulse = 0.97 + sin(u_time * 0.7) * 0.03;
+  // Subtle pulse brightness
+  float pulse = 0.97 + sin(u_time * 0.6) * 0.03;
   gl_FragColor = vec4(color.rgb * pulse, 1.0);
 }
+
   `;
 
   function createShader(type: number, source: string): WebGLShader {
@@ -209,7 +229,7 @@ void main() {
     height: 100vh;
     z-index: -1;
 
-    filter: blur(24px) brightness(0.7);
+    filter: brightness(0.95);
     object-fit: cover;
   }
 </style>
